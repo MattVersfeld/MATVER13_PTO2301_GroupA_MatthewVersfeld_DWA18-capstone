@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import Navbar from './components/Navbar'
-import Main from './components/MainContent'
+import ShowPreviews from './components/ShowPreviews'
 import LoadingBar from './components/Loading'
 import './App.css'
 
@@ -34,17 +34,18 @@ export default function App() {
       return <LoadingBar />
     } else {
       return props.map((show) => (
-        <Main
+        <ShowPreviews
           key={show.id}
           title={show.title}
           description={show.description}
           image={show.image}
           updated={show.updated}
+          seasons={show.seasons}
         />
       ))
     }
   }
-  const mainCards = checkPreview(state.shows)
+  const showPreviewCards = checkPreview(state.shows)
 
 
 
@@ -54,7 +55,7 @@ export default function App() {
         <Navbar />
       </div>
       <div className='main-container'>
-        {mainCards}
+        {showPreviewCards}
       </div>
 
       <div>
