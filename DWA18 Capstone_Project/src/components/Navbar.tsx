@@ -28,7 +28,7 @@ export default function Navbar() {
                 alt="Remy Sharp"
                 src="./src/assests/NavAvatar.jpg"
             />
-            <NavTitle>Let's Talk Podcast</NavTitle>
+            <NavTitle>Let's Talk Podcasts</NavTitle>
         </TopNav>
     )
 }

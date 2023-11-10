@@ -37,15 +37,16 @@ const CardStyle = styled(Card)({
 
 export default function ShowPreviews(props: {
     id: string;
+    key: string
     title: string;
     description: string;
     seasons: number;
     image: string;
-    genres: number[];
     updated: string;
+    episodeChange: any;
 }[]) {
     const [expanded, setExpanded] = React.useState(false);
-    const { title, description, image, updated, seasons } = props
+    const { title, description, image, updated, seasons, episodeChange, id } = props
 
     const date = new Date(updated)
     const readableDate = date.toDateString()
@@ -59,7 +60,7 @@ export default function ShowPreviews(props: {
             <CardStyle sx={{ maxWidth: 345 }}>
                 <CardHeader
                     action={
-                        <IconButton aria-label="forward">
+                        <IconButton aria-label="forward" onClick={() => episodeChange(id)}>
                             <ArrowForwardIosIcon />
                         </IconButton>
                     }
@@ -72,7 +73,7 @@ export default function ShowPreviews(props: {
                     alt="Podcast Image"
                 />
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
+                    <IconButton aria-label="add to favorites" >
                         <FavoriteIcon />
                     </IconButton>
                     <ExpandMore
