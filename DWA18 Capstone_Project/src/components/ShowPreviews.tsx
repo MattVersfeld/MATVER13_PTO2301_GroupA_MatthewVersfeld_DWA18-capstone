@@ -48,8 +48,6 @@ export default function ShowPreviews(props: {
     const [expanded, setExpanded] = React.useState(false);
     const { title, description, image, updated, seasons, episodeChange, id } = props
 
-    const date = new Date(updated)
-    const readableDate = date.toDateString()
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -65,7 +63,7 @@ export default function ShowPreviews(props: {
                         </IconButton>
                     }
                     title={title}
-                    subheader={readableDate}
+                    subheader={''}
                 />
                 <CardMedia
                     component="img"
