@@ -4,6 +4,8 @@ import Navbar from './components/Navbar'
 import ShowPreviews from './components/ShowPreviews'
 import LoadingBar from './components/Loading'
 import Episode from './components/Episode'
+import LandingCarousel from './components/Carousel'
+import generateCode from './utils/keygen'
 import './App.css'
 
 export default function App() {
@@ -11,7 +13,21 @@ export default function App() {
     phase: 'SHOWS',
     shows: [],
     episode: [],
+    carousel: [],
   })
+
+  /**
+   * Creates first array of Data for carousel dependency on the shows array
+   */
+  React.useEffect(() => {
+    const shuffled = [...state.shows].sort(() => 0.5 - Math.random());
+    setState((prevState) => ({
+      ...prevState,
+      carousel: shuffled.slice(0, 9)
+    }))
+  }, [state.shows])
+
+  console.log(state)
 
   /**
    * Initial API call for the array of shows to be used to preview on Landing Page
@@ -43,7 +59,6 @@ export default function App() {
       phase: 'EPISODE'
     }))
   }
-
 
   const showsPreview = (props: {
     id: string
@@ -90,13 +105,32 @@ export default function App() {
       )
     }
   }
+
+  const carouselPreview = (props) => {
+    if (props.length === 0) {
+      return <LoadingBar />
+    } else {
+      return (
+        <LandingCarousel
+          data={props}
+        />
+      )
+    }
+  }
+
+
+
   const showPreviewCards = showsPreview(state.shows)
   const showEpisode = episodePreview(state.episode)
+  const showCarousel = carouselPreview(state.carousel)
 
   return (
     <>
       <div className='nav-container'>
         <Navbar />
+      </div>
+      <div>
+        {state.phase === 'SHOWS' ? showCarousel : ''}
       </div>
       <div className='main-container'>
         {state.phase === 'EPISODE' ? showEpisode : showPreviewCards}

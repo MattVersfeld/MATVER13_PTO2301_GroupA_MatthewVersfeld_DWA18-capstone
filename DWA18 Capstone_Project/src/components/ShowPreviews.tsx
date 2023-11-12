@@ -25,7 +25,7 @@ const ExpandMore = styled((props) => {
 
 const ShowPreview = styled('div')({
     width: '100%',
-    marginTop: '150px',
+    marginTop: '30px',
     marginLeft: '50px',
     textAlign: 'center',
     justifyContent: 'space - evenly',
@@ -33,6 +33,7 @@ const ShowPreview = styled('div')({
 
 const CardStyle = styled(Card)({
     backgroundColor: '#F2F2F2',
+    border: 'solid black 1px'
 })
 
 export default function ShowPreviews(props: {

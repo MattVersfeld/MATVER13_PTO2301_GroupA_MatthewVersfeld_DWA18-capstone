@@ -10,13 +10,13 @@ import generateCode from '../utils/keygen';
 
 const EpisodeWrapper = styled('div')({
     border: 'solid black 1px',
-    width: '75vw',
+    width: '99%',
     marginTop: '100px',
     marginLeft: '5px',
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#F2F2F2',
-    borderRadius: '2%',
+    borderRadius: '5px',
 });
 
 const ImageStyle = styled('img')({
