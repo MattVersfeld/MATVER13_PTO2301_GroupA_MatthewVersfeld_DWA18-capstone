@@ -1,11 +1,12 @@
 import React from 'react'
 import { useState } from 'react'
 import Navbar from './components/Navbar'
-import ShowPreviews from './components/ShowPreviews'
+import Shows from './components/Shows'
 import LoadingBar from './components/Loading'
 import Episode from './components/Episode'
 import LandingCarousel from './components/Carousel'
 import generateCode from './utils/keygen'
+import SortBar from './components/SortBar'
 import './App.css'
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
     carousel: [],
   })
 
+
   /**
    * Creates first array of Data for carousel dependency on the shows array
    */
@@ -23,11 +25,9 @@ export default function App() {
     const shuffled = [...state.shows].sort(() => 0.5 - Math.random());
     setState((prevState) => ({
       ...prevState,
-      carousel: shuffled.slice(0, 9)
+      carousel: shuffled.slice(0, 11)
     }))
   }, [state.shows])
-
-  console.log(state)
 
   /**
    * Initial API call for the array of shows to be used to preview on Landing Page
@@ -73,8 +73,8 @@ export default function App() {
       return <LoadingBar />
     } else {
       return props.map((show) => (
-        <ShowPreviews
-          key={show.id}
+        <Shows
+          key={generateCode(16)}
           id={show.id}
           title={show.title}
           description={show.description}
@@ -93,7 +93,7 @@ export default function App() {
     } else {
       return (
         <Episode
-          key={props.id}
+          key={generateCode(16)}
           id={props.id}
           title={props.title}
           description={props.description}
@@ -124,6 +124,8 @@ export default function App() {
   const showEpisode = episodePreview(state.episode)
   const showCarousel = carouselPreview(state.carousel)
 
+  console.log(state.shows)
+
   return (
     <>
       <div className='nav-container'>
@@ -131,6 +133,7 @@ export default function App() {
       </div>
       <div>
         {state.phase === 'SHOWS' ? showCarousel : ''}
+        <SortBar />
       </div>
       <div className='main-container'>
         {state.phase === 'EPISODE' ? showEpisode : showPreviewCards}

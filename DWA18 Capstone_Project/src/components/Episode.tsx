@@ -59,7 +59,9 @@ export default function Episode(props) {
         season: '',
         list: '',
         displayEpisodes: [],
+        displayImgage: '',
     })
+
 
     const date = new Date(updated)
     const readableDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
@@ -78,6 +80,7 @@ export default function Episode(props) {
             ...prevState,
             season: event.target.value,
             displayEpisodes: seasons[event.target.value - 1].episodes,
+            displayImgage: seasons[event.target.value - 1].image
         }));
     };
 
@@ -124,7 +127,7 @@ export default function Episode(props) {
                 </Box>
             </SeasonList>
             <EpisodeContainer>
-                <ImageStyle src={image} alt="this is an image" />
+                <ImageStyle src={episodeState.displayImgage === '' ? image : episodeState.displayImgage} alt='season image' />
                 <EpisodeInfo>
                     {displayList}
                 </EpisodeInfo>

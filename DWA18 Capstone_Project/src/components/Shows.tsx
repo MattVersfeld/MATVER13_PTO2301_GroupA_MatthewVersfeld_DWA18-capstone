@@ -36,7 +36,7 @@ const CardStyle = styled(Card)({
     border: 'solid black 1px'
 })
 
-export default function ShowPreviews(props: {
+export default function Shows(props: {
     id: string;
     key: string
     title: string;

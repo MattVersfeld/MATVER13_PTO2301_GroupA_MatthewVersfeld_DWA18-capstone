@@ -1,4 +1,6 @@
 import { styled } from '@mui/system';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const MainLoading = styled('div')({
     width: '100%',
@@ -9,7 +11,10 @@ const MainLoading = styled('div')({
 export default function LoadingBar() {
     return (
         <MainLoading>
-            <h3>Loading...</h3>
+            <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+            </Box>
         </MainLoading>
-    )
+
+    );
 }
