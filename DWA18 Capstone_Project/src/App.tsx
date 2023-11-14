@@ -6,7 +6,7 @@ import LoadingBar from './components/Loading'
 import Episode from './components/Episode'
 import LandingCarousel from './components/Carousel'
 import generateCode from './utils/keygen'
-import SortBar from './components/SortBar'
+import SortingButtons from './components/SortBar'
 import './App.css'
 
 export default function App() {
@@ -14,7 +14,9 @@ export default function App() {
     phase: 'SHOWS',
     shows: [],
     episode: [],
+    loadCarousel: false,
     carousel: [],
+    resetShows: false,
   })
 
 
@@ -25,9 +27,9 @@ export default function App() {
     const shuffled = [...state.shows].sort(() => 0.5 - Math.random());
     setState((prevState) => ({
       ...prevState,
-      carousel: shuffled.slice(0, 11)
+      carousel: shuffled.slice(0, 11),
     }))
-  }, [state.shows])
+  }, [state.loadCarousel])
 
   /**
    * Initial API call for the array of shows to be used to preview on Landing Page
@@ -38,8 +40,10 @@ export default function App() {
       .then(data => setState((prevState) => ({
         ...prevState,
         shows: data,
+        loadCarousel: true,
+        resetShows: false,
       })))
-  }, [])
+  }, [state.resetShows])
 
   /**
    * When show is selected / clicked on the fuction takes the ID from the show and 
@@ -57,6 +61,46 @@ export default function App() {
     setState(prevState => ({
       ...prevState,
       phase: 'EPISODE'
+    }))
+  }
+
+  const sortAcending = () => {
+    setState(prevState => ({
+      ...prevState,
+      shows: prevState.shows.sort(function (a, b) {
+        const titleA = a.title.toUpperCase();
+        const titleB = b.title.toUpperCase();
+        if (titleA < titleB) {
+          return -1;
+        }
+        if (titleA > titleB) {
+          return 1;
+        }
+      })
+    }))
+  }
+
+  const sortDecending = () => {
+    setState(prevState => ({
+      ...prevState,
+      shows: prevState.shows.sort(function (a, b) {
+        const titleA = a.title.toUpperCase();
+        const titleB = b.title.toUpperCase();
+        if (titleA > titleB) {
+          return -1;
+        }
+        if (titleA < titleB) {
+          return 1;
+        }
+        return 0;
+      })
+    }))
+  }
+
+  const resetShows = () => {
+    setState((prevState) => ({
+      ...prevState,
+      resetShows: true,
     }))
   }
 
@@ -120,11 +164,10 @@ export default function App() {
 
 
 
+
   const showPreviewCards = showsPreview(state.shows)
   const showEpisode = episodePreview(state.episode)
   const showCarousel = carouselPreview(state.carousel)
-
-  console.log(state.shows)
 
   return (
     <>
@@ -133,7 +176,7 @@ export default function App() {
       </div>
       <div>
         {state.phase === 'SHOWS' ? showCarousel : ''}
-        <SortBar />
+        {state.phase === 'SHOWS' ? <SortingButtons down={sortDecending} up={sortAcending} reset={resetShows} /> : ''}
       </div>
       <div className='main-container'>
         {state.phase === 'EPISODE' ? showEpisode : showPreviewCards}

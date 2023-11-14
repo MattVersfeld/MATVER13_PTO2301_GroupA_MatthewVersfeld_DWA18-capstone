@@ -1,43 +1,43 @@
-import * as React from 'react';
-import Typography from '@mui/material/Typography';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import EventIcon from '@mui/icons-material/Event';
+import TodayIcon from '@mui/icons-material/Today';
 import { styled } from '@mui/material';
 
+const ButtonStyle = styled(Button)({
+    color: 'black',
+    border: 'none'
+})
 
-
-
-const SortStyle = styled('div')({
-    marginTop: '20px',
+const StackStyle = styled(Stack)({
+    marginTop: '15px',
     display: 'flex',
     justifyContent: 'center'
 })
 
-
-export default function SortBar() {
-
-
-    function handleClick(event) {
-        event.preventDefault();
-        console.info('You clicked a breadcrumb.');
-    }
+export default function SortingButtons(props) {
+    const { up, down, reset } = props
 
     return (
-        <SortStyle role="presentation" onClick={handleClick}>
-            <Breadcrumbs aria-label="breadcrumb">
-                {/* <Typography color="text.primary">Sort Shows:</Typography> */}
-                <Link underline="hover" color="inherit" href="/">
-                    Sort A - Z
-                </Link>
-                <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/material-ui/getting-started/installation/"
-                >
-                    Sort Z - A
-                </Link>
-
-            </Breadcrumbs>
-        </SortStyle>
+        <StackStyle direction="row" spacing={2}>
+            <ButtonStyle onClick={up} variant="outlined" startIcon={<ArrowUpwardIcon />}>
+                Sort A-Z
+            </ButtonStyle>
+            <ButtonStyle onClick={down} variant="outlined" startIcon={<ArrowDownwardIcon />}>
+                Sort Z-A
+            </ButtonStyle>
+            <ButtonStyle variant="outlined" startIcon={<TodayIcon />}>
+                Date recent
+            </ButtonStyle>
+            <ButtonStyle variant="outlined" startIcon={<EventIcon />}>
+                Date oldest
+            </ButtonStyle>
+            <ButtonStyle onClick={reset} variant="outlined" startIcon={<AutoFixHighIcon />}>
+                Reset
+            </ButtonStyle>
+        </StackStyle>
     );
 }
