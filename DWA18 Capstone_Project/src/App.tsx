@@ -20,6 +20,13 @@ export default function App() {
   })
 
 
+  const handlePhase = () => {
+    setState(prevState => ({
+      ...prevState,
+      phase: 'SHOWS'
+    }))
+  }
+
   /**
    * Creates first array of Data for carousel dependency on the shows array
    */
@@ -167,6 +174,7 @@ export default function App() {
           updated={props.updated}
           seasons={props.seasons}
           genres={props.genres}
+          phase={handlePhase}
         />
       )
     }

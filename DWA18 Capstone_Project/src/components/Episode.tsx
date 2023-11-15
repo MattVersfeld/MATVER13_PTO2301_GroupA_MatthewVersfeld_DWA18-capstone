@@ -7,6 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Player from './Player';
 import generateCode from '../utils/keygen';
+import BackButton from './BackButton';
 
 const EpisodeWrapper = styled('div')({
     border: 'solid black 1px',
@@ -52,8 +53,21 @@ const SeasonList = styled('div')({
     marginLeft: '5px',
 })
 
+const BacktitleStyle = styled('div')({
+    display: 'flex',
+    padding: '5px',
+})
+
+const Title = styled('h1')({
+    marginRight: 'auto',
+})
+
+
+
+
+
 export default function Episode(props) {
-    const { id, title, description, genres, seasons, image, updated } = props
+    const { id, title, description, genres, seasons, image, updated, phase } = props
 
     const [episodeState, setEpisodeState] = React.useState({
         season: '',
@@ -111,9 +125,16 @@ export default function Episode(props) {
     return (
         <EpisodeWrapper>
             <TitleInfo>
-                <h1>{title}</h1>
+                <BacktitleStyle>
+                    <Title>{title}</Title>
+                    <BackButton
+                        phase={phase}
+                    />
+                </BacktitleStyle>
+
                 <p>{description}</p>
             </TitleInfo>
+            {/* <button onClick={phase}>Click me</button> */}
             <SeasonList>
                 <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>
