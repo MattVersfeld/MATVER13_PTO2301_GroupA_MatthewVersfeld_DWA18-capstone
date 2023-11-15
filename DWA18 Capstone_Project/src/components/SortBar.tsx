@@ -19,7 +19,7 @@ const StackStyle = styled(Stack)({
 })
 
 export default function SortingButtons(props) {
-    const { up, down, reset } = props
+    const { up, down, reset, dateDown, dateUp } = props
 
     return (
         <StackStyle direction="row" spacing={2}>
@@ -29,10 +29,10 @@ export default function SortingButtons(props) {
             <ButtonStyle onClick={down} variant="outlined" startIcon={<ArrowDownwardIcon />}>
                 Sort Z-A
             </ButtonStyle>
-            <ButtonStyle variant="outlined" startIcon={<TodayIcon />}>
+            <ButtonStyle onClick={dateUp} variant="outlined" startIcon={<TodayIcon />}>
                 Date recent
             </ButtonStyle>
-            <ButtonStyle variant="outlined" startIcon={<EventIcon />}>
+            <ButtonStyle onClick={dateDown} variant="outlined" startIcon={<EventIcon />}>
                 Date oldest
             </ButtonStyle>
             <ButtonStyle onClick={reset} variant="outlined" startIcon={<AutoFixHighIcon />}>

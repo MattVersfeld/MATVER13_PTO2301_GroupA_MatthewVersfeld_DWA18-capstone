@@ -97,6 +97,28 @@ export default function App() {
     }))
   }
 
+  const sortDecendingDate = () => {
+    setState(prevState => ({
+      ...prevState,
+      shows: prevState.shows.sort((x, y) => {
+        x = new Date(x.updated),
+          y = new Date(y.updated);
+        return y - x;
+      })
+    }))
+  }
+
+  const sortAcendingDate = () => {
+    setState(prevState => ({
+      ...prevState,
+      shows: prevState.shows.sort((x, y) => {
+        x = new Date(x.updated),
+          y = new Date(y.updated);
+        return x - y;
+      })
+    }))
+  }
+
   const resetShows = () => {
     setState((prevState) => ({
       ...prevState,
@@ -162,12 +184,25 @@ export default function App() {
     }
   }
 
-
-
+  const showSortingBar = (props) => {
+    if (props.length === 0) {
+      return <LoadingBar />
+    } else {
+      return (
+        <SortingButtons
+          down={sortDecending}
+          up={sortAcending}
+          reset={resetShows}
+          dateDown={sortDecendingDate}
+          dateUp={sortAcendingDate} />
+      )
+    }
+  }
 
   const showPreviewCards = showsPreview(state.shows)
   const showEpisode = episodePreview(state.episode)
   const showCarousel = carouselPreview(state.carousel)
+  const showSortBar = showSortingBar(state.shows)
 
   return (
     <>
@@ -176,7 +211,7 @@ export default function App() {
       </div>
       <div>
         {state.phase === 'SHOWS' ? showCarousel : ''}
-        {state.phase === 'SHOWS' ? <SortingButtons down={sortDecending} up={sortAcending} reset={resetShows} /> : ''}
+        {state.phase === 'SHOWS' ? showSortBar : ''}
       </div>
       <div className='main-container'>
         {state.phase === 'EPISODE' ? showEpisode : showPreviewCards}
