@@ -37,7 +37,7 @@ const CardStyle = styled(Card)({
 })
 
 const IconStyle = styled(FavoriteIcon)({
-    color: '#ffd420',
+    color: '#42adf5',
 })
 
 export default function Shows(props: {

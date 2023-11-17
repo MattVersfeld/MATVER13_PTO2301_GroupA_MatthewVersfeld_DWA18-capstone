@@ -10,7 +10,10 @@ import SortingButtons from './components/SortBar'
 import './App.css'
 
 export default function App() {
-  const [state, setState] = useState({
+
+  const storedItems = JSON.parse(localStorage.getItem('storeStuff'))
+
+  const [state, setState] = useState((storedItems) ? storedItems : {
     phase: 'SHOWS',
     shows: [],
     DisplayShows: [],
@@ -20,7 +23,12 @@ export default function App() {
     resetShows: false,
   })
 
-  const handleFavorite = (id) => {
+  React.useEffect(() => {
+    localStorage.setItem('storeStuff', JSON.stringify(state))
+  }, [state])
+
+
+  const handleFavorite = (id: string) => {
     setState(prevState => ({
       ...prevState,
       shows: prevState.shows.map((show) => {
@@ -53,17 +61,21 @@ export default function App() {
    * Initial API call for the array of shows to be used to preview on Landing Page
    */
   React.useEffect(() => {
-    fetch('https://podcast-api.netlify.app/shows')
-      .then(res => res.json())
-      .then(data => setState((prevState) => ({
-        ...prevState,
-        shows: data.map(item => ({
-          ...item,
-          favorite: false
-        })),
-        loadCarousel: true,
-        resetShows: false,
-      })))
+    if (storedItems) {
+      return
+    } else {
+      fetch('https://podcast-api.netlify.app/shows')
+        .then(res => res.json())
+        .then(data => setState((prevState) => ({
+          ...prevState,
+          shows: data.map(item => ({
+            ...item,
+            favorite: false,
+          })),
+          loadCarousel: true,
+          resetShows: false,
+        })))
+    }
   }, [state.resetShows])
 
   /**
