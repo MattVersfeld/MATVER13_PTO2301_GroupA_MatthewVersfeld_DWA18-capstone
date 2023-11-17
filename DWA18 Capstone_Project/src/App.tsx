@@ -13,12 +13,23 @@ export default function App() {
   const [state, setState] = useState({
     phase: 'SHOWS',
     shows: [],
+    DisplayShows: [],
     episode: [],
     loadCarousel: false,
     carousel: [],
     resetShows: false,
   })
 
+  const handleFavorite = (id) => {
+    setState(prevState => ({
+      ...prevState,
+      shows: prevState.shows.map((show) => {
+        return show.id === id ? { ...show, favorite: !show.favorite } : show
+      })
+    }))
+  }
+
+  console.log(state.shows)
 
   const handlePhase = () => {
     setState(prevState => ({
@@ -46,7 +57,10 @@ export default function App() {
       .then(res => res.json())
       .then(data => setState((prevState) => ({
         ...prevState,
-        shows: data,
+        shows: data.map(item => ({
+          ...item,
+          favorite: false
+        })),
         loadCarousel: true,
         resetShows: false,
       })))
@@ -133,15 +147,7 @@ export default function App() {
     }))
   }
 
-  const showsPreview = (props: {
-    id: string
-    title: string
-    description: string
-    seasons: number
-    image: string
-    genres: number[]
-    updated: string
-  }[]) => {
+  const showsPreview = (props) => {
     if (props.length === 0) {
       return <LoadingBar />
     } else {
@@ -155,6 +161,8 @@ export default function App() {
           updated={show.updated}
           seasons={show.seasons}
           episodeChange={episodeData}
+          toggleFav={handleFavorite}
+          isFav={show.favorite}
         />
       ))
     }

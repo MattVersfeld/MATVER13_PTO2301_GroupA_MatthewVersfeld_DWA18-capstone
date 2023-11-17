@@ -36,6 +36,10 @@ const CardStyle = styled(Card)({
     border: 'solid black 1px'
 })
 
+const IconStyle = styled(FavoriteIcon)({
+    color: '#ffd420',
+})
+
 export default function Shows(props: {
     id: string;
     key: string
@@ -47,12 +51,14 @@ export default function Shows(props: {
     episodeChange: any;
 }[]) {
     const [expanded, setExpanded] = React.useState(false);
-    const { title, description, image, updated, seasons, episodeChange, id } = props
+    const { title, description, image, updated, seasons, episodeChange, id, toggleFav, isFav } = props
 
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+
+
 
     return (
         <ShowPreview>
@@ -72,9 +78,11 @@ export default function Shows(props: {
                     alt="Podcast Image"
                 />
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites" >
+                    {isFav ? <IconButton onClick={() => toggleFav(id)} aria-label="add to favorites" >
+                        <IconStyle />
+                    </IconButton> : <IconButton onClick={() => toggleFav(id)} aria-label="add to favorites" >
                         <FavoriteIcon />
-                    </IconButton>
+                    </IconButton>}
                     <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}
