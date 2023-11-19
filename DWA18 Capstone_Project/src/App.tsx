@@ -20,7 +20,6 @@ export default function App() {
     episode: [],
     loadCarousel: false,
     carousel: [],
-    resetShows: false,
   })
 
   React.useEffect(() => {
@@ -37,7 +36,6 @@ export default function App() {
     }))
   }
 
-  console.log(state.shows)
 
   const handlePhase = () => {
     setState(prevState => ({
@@ -76,7 +74,7 @@ export default function App() {
           resetShows: false,
         })))
     }
-  }, [state.resetShows])
+  }, [])
 
   /**
    * When show is selected / clicked on the fuction takes the ID from the show and 
@@ -153,10 +151,16 @@ export default function App() {
   }
 
   const resetShows = () => {
-    setState((prevState) => ({
-      ...prevState,
-      resetShows: true,
-    }))
+    fetch('https://podcast-api.netlify.app/shows')
+      .then(res => res.json())
+      .then(data => setState((prevState) => ({
+        ...prevState,
+        shows: data.map(item => ({
+          ...item,
+          favorite: false,
+        })),
+        loadCarousel: true,
+      })))
   }
 
   const showsPreview = (props) => {
