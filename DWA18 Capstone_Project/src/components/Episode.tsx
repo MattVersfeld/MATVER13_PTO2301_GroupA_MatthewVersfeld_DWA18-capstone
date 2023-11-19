@@ -12,7 +12,7 @@ import BackButton from './BackButton';
 const EpisodeWrapper = styled('div')({
     border: 'solid black 1px',
     width: '99%',
-    marginTop: '100px',
+    marginTop: '50px',
     marginLeft: '5px',
     display: 'flex',
     flexDirection: 'column',

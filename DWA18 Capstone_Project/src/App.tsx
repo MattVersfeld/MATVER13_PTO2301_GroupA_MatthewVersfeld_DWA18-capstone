@@ -12,7 +12,7 @@ import './App.css'
 
 export default function App() {
 
-  const storedItems = JSON.parse(localStorage.getItem('storeStuff'))
+  const storedItems = JSON.parse(localStorage.getItem('localStorage'))
 
   const [state, setState] = useState((storedItems) ? storedItems : {
     phase: 'SHOWS',
@@ -25,11 +25,12 @@ export default function App() {
   })
 
   React.useEffect(() => {
-    localStorage.setItem('storeStuff', JSON.stringify(state))
+    localStorage.setItem('localStorage', JSON.stringify(state))
   }, [state])
 
 
   const handleFavorite = (id: string) => {
+
     setState(prevState => ({
       ...prevState,
       shows: prevState.shows.map((show) => {
@@ -43,9 +44,8 @@ export default function App() {
         return show.favorite === true ? show : undefined
       }).filter(item => item !== undefined)
     }))
-  }
 
-  console.log(state.favoriteShows)
+  }
 
   const handlePhase = () => {
     setState(prevState => ({
