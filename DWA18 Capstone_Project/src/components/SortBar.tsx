@@ -5,6 +5,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import EventIcon from '@mui/icons-material/Event';
 import TodayIcon from '@mui/icons-material/Today';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { styled } from '@mui/material';
 
 const ButtonStyle = styled(Button)({
@@ -19,7 +20,7 @@ const StackStyle = styled(Stack)({
 })
 
 export default function SortingButtons(props) {
-    const { up, down, reset, dateDown, dateUp } = props
+    const { up, down, reset, dateDown, dateUp, phase } = props
 
     return (
         <StackStyle direction="row" spacing={2}>
@@ -37,6 +38,9 @@ export default function SortingButtons(props) {
             </ButtonStyle>
             <ButtonStyle onClick={reset} variant="outlined" startIcon={<AutoFixHighIcon />}>
                 Reset
+            </ButtonStyle>
+            <ButtonStyle onClick={phase} variant="outlined" startIcon={<FavoriteIcon />}>
+                Favorites
             </ButtonStyle>
         </StackStyle>
     );

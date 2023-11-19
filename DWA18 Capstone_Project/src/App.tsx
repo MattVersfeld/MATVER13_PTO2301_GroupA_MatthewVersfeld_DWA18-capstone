@@ -7,6 +7,7 @@ import Episode from './components/Episode'
 import LandingCarousel from './components/Carousel'
 import generateCode from './utils/keygen'
 import SortingButtons from './components/SortBar'
+import { dateUp, dateDown, titleDown, titleUp } from './utils/sorting'
 import './App.css'
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
     episode: [],
     loadCarousel: false,
     carousel: [],
+    favoriteShows: [],
   })
 
   React.useEffect(() => {
@@ -34,14 +36,32 @@ export default function App() {
         return show.id === id ? { ...show, favorite: !show.favorite } : show
       })
     }))
+
+    setState(prevState => ({
+      ...prevState,
+      favoriteShows: [...prevState.shows].map((show) => {
+        return show.favorite === true ? show : undefined
+      }).filter(item => item !== undefined)
+    }))
   }
 
+  console.log(state.favoriteShows)
 
   const handlePhase = () => {
     setState(prevState => ({
       ...prevState,
       phase: 'SHOWS'
     }))
+  }
+  const changePhase = () => {
+    if (state.favoriteShows.length === 0) {
+      return
+    } else {
+      setState(prevState => ({
+        ...prevState,
+        phase: 'FAVORITES'
+      }))
+    }
   }
 
   /**
@@ -98,55 +118,32 @@ export default function App() {
   const sortAcending = () => {
     setState(prevState => ({
       ...prevState,
-      shows: prevState.shows.sort(function (a, b) {
-        const titleA = a.title.toUpperCase();
-        const titleB = b.title.toUpperCase();
-        if (titleA < titleB) {
-          return -1;
-        }
-        if (titleA > titleB) {
-          return 1;
-        }
-      })
+      shows: prevState.shows.sort(titleUp),
+      favoriteShows: prevState.favoriteShows.sort(titleUp),
     }))
   }
 
   const sortDecending = () => {
     setState(prevState => ({
       ...prevState,
-      shows: prevState.shows.sort(function (a, b) {
-        const titleA = a.title.toUpperCase();
-        const titleB = b.title.toUpperCase();
-        if (titleA > titleB) {
-          return -1;
-        }
-        if (titleA < titleB) {
-          return 1;
-        }
-        return 0;
-      })
+      shows: prevState.shows.sort(titleDown),
+      favoriteShows: prevState.favoriteShows.sort(titleDown),
     }))
   }
 
   const sortDecendingDate = () => {
     setState(prevState => ({
       ...prevState,
-      shows: prevState.shows.sort((x, y) => {
-        x = new Date(x.updated),
-          y = new Date(y.updated);
-        return y - x;
-      })
+      shows: prevState.shows.sort(dateDown),
+      favoriteShows: prevState.favoriteShows.sort(dateDown),
     }))
   }
 
   const sortAcendingDate = () => {
     setState(prevState => ({
       ...prevState,
-      shows: prevState.shows.sort((x, y) => {
-        x = new Date(x.updated),
-          y = new Date(y.updated);
-        return x - y;
-      })
+      shows: prevState.shows.sort(dateUp),
+      favoriteShows: prevState.favoriteShows.sort(dateUp),
     }))
   }
 
@@ -160,6 +157,8 @@ export default function App() {
           favorite: false,
         })),
         loadCarousel: true,
+        favoriteShows: [],
+        phase: 'SHOWS'
       })))
   }
 
@@ -226,12 +225,14 @@ export default function App() {
           up={sortAcending}
           reset={resetShows}
           dateDown={sortDecendingDate}
-          dateUp={sortAcendingDate} />
+          dateUp={sortAcendingDate}
+          phase={changePhase}
+        />
       )
     }
   }
 
-  const showPreviewCards = showsPreview(state.shows)
+  const showPreviewCards = showsPreview(state.phase === 'FAVORITES' ? state.favoriteShows : state.shows)
   const showEpisode = episodePreview(state.episode)
   const showCarousel = carouselPreview(state.carousel)
   const showSortBar = showSortingBar(state.shows)
@@ -242,8 +243,8 @@ export default function App() {
         <Navbar />
       </div>
       <div>
-        {state.phase === 'SHOWS' ? showCarousel : ''}
-        {state.phase === 'SHOWS' ? showSortBar : ''}
+        {state.phase === 'SHOWS' || 'FAVORITE' ? showCarousel : ''}
+        {state.phase === 'SHOWS' || 'FAVORITE' ? showSortBar : ''}
       </div>
       <div className='main-container'>
         {state.phase === 'EPISODE' ? showEpisode : showPreviewCards}
