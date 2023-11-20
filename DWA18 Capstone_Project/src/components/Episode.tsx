@@ -134,7 +134,6 @@ export default function Episode(props) {
 
                 <p>{description}</p>
             </TitleInfo>
-            {/* <button onClick={phase}>Click me</button> */}
             <SeasonList>
                 <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>

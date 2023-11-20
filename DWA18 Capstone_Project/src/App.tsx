@@ -34,7 +34,7 @@ export default function App() {
     setState(prevState => ({
       ...prevState,
       shows: prevState.shows.map((show) => {
-        return show.id === id ? { ...show, favorite: !show.favorite } : show
+        return show.id === id ? { ...show, favorite: !show.favorite, date: new Date().toLocaleString() } : show
       })
     }))
 
@@ -46,6 +46,8 @@ export default function App() {
     }))
 
   }
+
+  console.log(state.shows)
 
   const handlePhase = () => {
     setState(prevState => ({
@@ -178,6 +180,7 @@ export default function App() {
           episodeChange={episodeData}
           toggleFav={handleFavorite}
           isFav={show.favorite}
+          favUpdated={show.date}
         />
       ))
     }

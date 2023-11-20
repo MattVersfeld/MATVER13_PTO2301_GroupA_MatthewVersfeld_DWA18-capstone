@@ -40,18 +40,9 @@ const IconStyle = styled(FavoriteIcon)({
     color: '#42adf5',
 })
 
-export default function Shows(props: {
-    id: string;
-    key: string
-    title: string;
-    description: string;
-    seasons: number;
-    image: string;
-    updated: string;
-    episodeChange: any;
-}[]) {
+export default function Shows(props) {
     const [expanded, setExpanded] = React.useState(false);
-    const { title, description, image, updated, seasons, episodeChange, id, toggleFav, isFav } = props
+    const { title, description, image, updated, seasons, episodeChange, id, toggleFav, isFav, favUpdated } = props
 
 
     const handleExpandClick = () => {
@@ -83,6 +74,7 @@ export default function Shows(props: {
                     </IconButton> : <IconButton onClick={() => toggleFav(id)} aria-label="add to favorites" >
                         <FavoriteIcon />
                     </IconButton>}
+                    <p>{(isFav) ? favUpdated : ''}</p>
                     <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}
