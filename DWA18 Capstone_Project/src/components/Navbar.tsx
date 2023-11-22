@@ -1,9 +1,10 @@
 import { styled } from '@mui/system';
 import Avatar from '@mui/material/Avatar';
+import SearchBar from './SearchBar';
 
 const TopNav = styled('div')({
     display: 'flex',
-    alignItems: 'center',
+    justifyContent: 'space-between',
     width: '100%',
     position: 'fixed',
     backgroundColor: 'rgba(0, 0, 0, 0.87)',
@@ -14,20 +15,37 @@ const TopNav = styled('div')({
 });
 
 const NavAvatar = styled(Avatar)({
-    marginLeft: '2rem',
+    margin: '20px',
 })
 
 const NavTitle = styled('h1')({
-    marginLeft: '20px',
 })
 
-export default function Navbar() {
+const BarWrapper = styled('div')({
+    backgroundColor: '#FFFFF7',
+    height: '75%',
+    margin: '10px',
+    borderRadius: '5px',
+})
+
+const NavTitleWrapper = styled('div')({
+    display: 'flex',
+})
+
+
+export default function Navbar(props) {
+    const { search } = props
     return (
         <TopNav>
-            <NavAvatar
-                src="./src/assests/NavAvatar.jpg"
-            />
-            <NavTitle>Let's Talk Podcasts</NavTitle>
+            <NavTitleWrapper>
+                <NavAvatar
+                    src="./src/assests/NavAvatar.jpg"
+                />
+                <NavTitle>Let's Talk Podcasts</NavTitle>
+            </NavTitleWrapper>
+            <BarWrapper>
+                <SearchBar search={search} />
+            </BarWrapper>
         </TopNav>
     )
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import Fuse from "fuse.js";
 import { useState } from 'react'
 import Navbar from './components/Navbar'
 import Shows from './components/Shows'
@@ -22,22 +23,52 @@ export default function App() {
     loadCarousel: false,
     carousel: [],
     favoriteShows: [],
+    showBackup: [],
   })
 
   React.useEffect(() => {
     localStorage.setItem('localStorage', JSON.stringify(state))
   }, [state])
 
+  const options = {
+    includeScore: true,
+    includeMatches: true,
+    threshold: 0.2,
+    keys: ["title"],
+  }
 
+  const fuse = new Fuse(state.shows, options);
+
+  const handleSearch = (event) => {
+    event.preventDefault()
+    const { value } = event.target;
+
+    if (value.length === 0) {
+      setState(prevState => ({
+        ...prevState,
+        shows: prevState.showBackup
+      }));
+      return;
+    }
+
+    const results = fuse.search(value);
+    const items = results.map((result) => result.item);
+    setState(prevState => ({
+      ...prevState,
+      shows: (items.length === 0) ? prevState.showBackup : items
+    }));
+  };
+
+  /**
+   * Function handles the favorites once clicked on each show
+   */
   const handleFavorite = (id: string) => {
-
     setState(prevState => ({
       ...prevState,
       shows: prevState.shows.map((show) => {
         return show.id === id ? { ...show, favorite: !show.favorite, date: new Date().toLocaleString() } : show
       })
     }))
-
     setState(prevState => ({
       ...prevState,
       favoriteShows: [...prevState.shows].map((show) => {
@@ -46,8 +77,6 @@ export default function App() {
     }))
 
   }
-
-  console.log(state.shows)
 
   const handlePhase = () => {
     setState(prevState => ({
@@ -94,10 +123,37 @@ export default function App() {
           })),
           loadCarousel: true,
           resetShows: false,
+          showBackup: data.map(item => ({
+            ...item,
+            favorite: false,
+          })),
         })))
     }
   }, [])
 
+  // React.useEffect(() => {
+
+  // }, [])
+  //   const showArr = [...state.shows].map(show => ({
+  //     ...show,
+  //     genre: show.genres.map(item => {
+  //       fetch(`https://podcast-api.netlify.app/genre/${item}`)
+  //         .then(res => res.json())
+  //         .then(data => setState(prevState => ({
+  //           ...prevState,
+  //           shows: prevState.shows.map(i => ({
+  //             ...i,
+  //             genre: i.genres.map(thing => ({
+  //               ...thing,
+  //               data: data
+  //             }))
+  //           }))
+  //         })))
+  //     })
+  //   }))
+  // }, [])
+
+  console.log(state.shows)
   /**
    * When show is selected / clicked on the fuction takes the ID from the show and 
    * uses the ID to fetch the single episode data from API
@@ -122,6 +178,8 @@ export default function App() {
       ...prevState,
       shows: prevState.shows.sort(titleUp),
       favoriteShows: prevState.favoriteShows.sort(titleUp),
+      showBackup: prevState.shows.sort(titleUp),
+
     }))
   }
 
@@ -130,6 +188,7 @@ export default function App() {
       ...prevState,
       shows: prevState.shows.sort(titleDown),
       favoriteShows: prevState.favoriteShows.sort(titleDown),
+      showBackup: prevState.shows.sort(titleDown),
     }))
   }
 
@@ -138,6 +197,7 @@ export default function App() {
       ...prevState,
       shows: prevState.shows.sort(dateDown),
       favoriteShows: prevState.favoriteShows.sort(dateDown),
+      showBackup: prevState.shows.sort(dateDown),
     }))
   }
 
@@ -146,6 +206,7 @@ export default function App() {
       ...prevState,
       shows: prevState.shows.sort(dateUp),
       favoriteShows: prevState.favoriteShows.sort(dateUp),
+      showBackup: prevState.shows.sort(dateUp),
     }))
   }
 
@@ -243,7 +304,7 @@ export default function App() {
   return (
     <>
       <div className='nav-container'>
-        <Navbar />
+        <Navbar search={handleSearch} />
       </div>
       <div>
         {state.phase === 'SHOWS' || 'FAVORITE' ? showCarousel : ''}

@@ -76,7 +76,7 @@ export default function Episode(props) {
         displayImgage: '',
     })
 
-
+    console.log(genres)
     const date = new Date(updated)
     const readableDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
 
