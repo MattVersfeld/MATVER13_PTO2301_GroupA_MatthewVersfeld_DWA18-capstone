@@ -8,6 +8,7 @@ import Episode from './components/Episode'
 import LandingCarousel from './components/Carousel'
 import generateCode from './utils/keygen'
 import SortingButtons from './components/SortBar'
+import MediaPlayer from './components/MediaPlayer';
 import { dateUp, dateDown, titleDown, titleUp } from './utils/sorting'
 import './App.css'
 
@@ -31,6 +32,7 @@ export default function App() {
   }, [state])
 
   const options = {
+    isCaseSensitive: false,
     includeScore: true,
     includeMatches: true,
     threshold: 0.2,
@@ -58,6 +60,8 @@ export default function App() {
       shows: (items.length === 0) ? prevState.showBackup : items
     }));
   };
+
+
 
   /**
    * Function handles the favorites once clicked on each show
@@ -130,30 +134,6 @@ export default function App() {
         })))
     }
   }, [])
-
-  // React.useEffect(() => {
-
-  // }, [])
-  //   const showArr = [...state.shows].map(show => ({
-  //     ...show,
-  //     genre: show.genres.map(item => {
-  //       fetch(`https://podcast-api.netlify.app/genre/${item}`)
-  //         .then(res => res.json())
-  //         .then(data => setState(prevState => ({
-  //           ...prevState,
-  //           shows: prevState.shows.map(i => ({
-  //             ...i,
-  //             genre: i.genres.map(thing => ({
-  //               ...thing,
-  //               data: data
-  //             }))
-  //           }))
-  //         })))
-  //     })
-  //   }))
-  // }, [])
-
-  console.log(state.shows)
   /**
    * When show is selected / clicked on the fuction takes the ID from the show and 
    * uses the ID to fetch the single episode data from API
@@ -247,25 +227,25 @@ export default function App() {
     }
   }
 
-  const episodePreview = (props) => {
-    if (props.length === 0) {
-      return <LoadingBar />
-    } else {
-      return (
-        <Episode
-          key={generateCode(16)}
-          id={props.id}
-          title={props.title}
-          description={props.description}
-          image={props.image}
-          updated={props.updated}
-          seasons={props.seasons}
-          genres={props.genres}
-          phase={handlePhase}
-        />
-      )
-    }
-  }
+  // const episodePreview = (props) => {
+  //   if (props.length === 0) {
+  //     return <LoadingBar />
+  //   } else {
+  //     return (
+  //       <Episode
+  //         key={generateCode(16)}
+  //         id={props.id}
+  //         title={props.title}
+  //         description={props.description}
+  //         image={props.image}
+  //         updated={props.updated}
+  //         seasons={props.seasons}
+  //         genres={props.genres}
+  //         phase={handlePhase}
+  //       />
+  //     )
+  //   }
+  // }
 
   const carouselPreview = (props) => {
     if (props.length === 0) {
@@ -296,8 +276,9 @@ export default function App() {
     }
   }
 
+
   const showPreviewCards = showsPreview(state.phase === 'FAVORITES' ? state.favoriteShows : state.shows)
-  const showEpisode = episodePreview(state.episode)
+  // const showEpisode = episodePreview(state.episode)
   const showCarousel = carouselPreview(state.carousel)
   const showSortBar = showSortingBar(state.shows)
 
@@ -306,13 +287,15 @@ export default function App() {
       <div className='nav-container'>
         <Navbar search={handleSearch} />
       </div>
+      <MediaPlayer />
       <div>
         {state.phase === 'SHOWS' || 'FAVORITE' ? showCarousel : ''}
         {state.phase === 'SHOWS' || 'FAVORITE' ? showSortBar : ''}
       </div>
       <div className='main-container'>
-        {state.phase === 'EPISODE' ? showEpisode : showPreviewCards}
+        {showPreviewCards}
       </div>
+
     </>
   )
 }

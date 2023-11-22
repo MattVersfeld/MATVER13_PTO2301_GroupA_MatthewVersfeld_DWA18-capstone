@@ -63,29 +63,33 @@ const Title = styled('h1')({
 })
 
 
-
-
-
 export default function Episode(props) {
-    const { id, title, description, genres, seasons, image, updated, phase } = props
+    const { title, description, seasons, image, updated, phase } = props
 
     const [episodeState, setEpisodeState] = React.useState({
         season: '',
         list: '',
         displayEpisodes: [],
         displayImgage: '',
+        mediaPlayer: '',
     })
 
-    console.log(genres)
     const date = new Date(updated)
     const readableDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
 
     React.useEffect(() => {
         setEpisodeState((prevState) => ({
             ...prevState,
-            list: seasons.map((item) =>
-                <MenuItem key={generateCode(16)} value={item.season}>{item.season}</MenuItem>),
-        }))
+            list: seasons.map((item) => (
+                <MenuItem
+                    key={generateCode(16)}
+                    value={item.season}
+                >
+                    {item.season}
+                </MenuItem>
+            ))
+        })
+        )
     }, [episodeState.season])
 
 
@@ -117,8 +121,6 @@ export default function Episode(props) {
 
         }
     }
-
-
 
     const displayList = displayPlayer(episodeState.displayEpisodes)
 
