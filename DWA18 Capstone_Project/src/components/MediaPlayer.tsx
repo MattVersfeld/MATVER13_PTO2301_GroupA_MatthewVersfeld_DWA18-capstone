@@ -26,8 +26,9 @@ const Test = styled('div')({
     position: 'relative',
 })
 
-export default function MediaPlayer() {
+export default function MediaPlayer(props) {
     const theme = useTheme();
+
 
     return (
         <Test>
@@ -35,7 +36,7 @@ export default function MediaPlayer() {
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <CardContent sx={{ flex: '1 0 auto', color: 'white' }}>
                         <Typography component="div" variant="h5">
-                            Live From Space
+                            title here
                         </Typography>
                         <Typography variant="subtitle1" color="text.secondary" component="div">
                             Mac Miller

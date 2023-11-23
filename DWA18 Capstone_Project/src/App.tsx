@@ -20,11 +20,25 @@ export default function App() {
     phase: 'SHOWS',
     shows: [],
     DisplayShows: [],
-    episode: [],
+    showDetails: {
+      showData: [],
+      showImage: '',
+      showTitle: '',
+      showDescription: '',
+      seasonPick: '',
+      episodes: [],
+      displayEpisodes: [],
+      displayImage: '',
+    },
     loadCarousel: false,
     carousel: [],
     favoriteShows: [],
     showBackup: [],
+    mediaPlayer: {
+      mediaTitle: '',
+      mediaFile: '',
+      mediaImage: '',
+    },
   })
 
   React.useEffect(() => {
@@ -61,8 +75,6 @@ export default function App() {
     }));
   };
 
-
-
   /**
    * Function handles the favorites once clicked on each show
    */
@@ -85,7 +97,16 @@ export default function App() {
   const handlePhase = () => {
     setState(prevState => ({
       ...prevState,
-      phase: 'SHOWS'
+      phase: 'SHOWS',
+      showDetails: {
+        ...prevState.showDetails,
+        showData: [],
+        showImage: '',
+        seasonPick: '',
+        episodes: [],
+        displayEpisodes: [],
+        displayImage: '',
+      }
     }))
   }
   const changePhase = () => {
@@ -139,12 +160,18 @@ export default function App() {
    * uses the ID to fetch the single episode data from API
    * Once API has been fetched the phase changes 
    */
-  const episodeData = (id: string) => {
+  const showDetailData = (id: string) => {
     fetch(`https://podcast-api.netlify.app/id/${id}`)
       .then(res => res.json())
       .then(data => setState((prevState) => ({
         ...prevState,
-        episode: data,
+        showDetails: {
+          ...prevState.showDetails,
+          showData: data,
+          showImage: data.image,
+          showTitle: data.title,
+          showDescription: data.description,
+        },
       })))
 
     setState(prevState => ({
@@ -218,7 +245,7 @@ export default function App() {
           image={show.image}
           updated={show.updated}
           seasons={show.seasons}
-          episodeChange={episodeData}
+          episodeChange={showDetailData}
           toggleFav={handleFavorite}
           isFav={show.favorite}
           favUpdated={show.date}
@@ -227,25 +254,50 @@ export default function App() {
     }
   }
 
-  // const episodePreview = (props) => {
-  //   if (props.length === 0) {
-  //     return <LoadingBar />
-  //   } else {
-  //     return (
-  //       <Episode
-  //         key={generateCode(16)}
-  //         id={props.id}
-  //         title={props.title}
-  //         description={props.description}
-  //         image={props.image}
-  //         updated={props.updated}
-  //         seasons={props.seasons}
-  //         genres={props.genres}
-  //         phase={handlePhase}
-  //       />
-  //     )
-  //   }
+
+  const handleSeasons = (event) => {
+    setState(prevState => ({
+      ...prevState,
+      showDetails: {
+        ...prevState.showDetails,
+        seasonPick: event.target.value,
+        displayEpisodes: prevState.showDetails.showData.seasons[event.target.value - 1].episodes,
+        displayImage: prevState.showDetails.showData.seasons[event.target.value - 1].image
+      }
+    }));
+  };
+
+  const episodePreview = (props) => {
+    if (props.showData.length === 0) {
+      return <LoadingBar />
+    } else {
+      return (
+        <Episode
+          key={generateCode(16)}
+          showData={props.showData}
+          handleSeasons={handleSeasons}
+          seasonPick={props.seasonPick}
+          phase={handlePhase}
+          image={props.displayImage}
+          loadImage={props.showImage}
+          episodes={props.displayEpisodes}
+          description={props.showDescription}
+          title={props.showTitle}
+
+
+        />
+      )
+    }
+  }
+
+  // const mediaPlayerPreview = (props) => {
+  //   setState(prevState => ({
+  //     ...prevState,
+  //     mediaPlayer: props,
+  //   })
+  //   )
   // }
+
 
   const carouselPreview = (props) => {
     if (props.length === 0) {
@@ -276,24 +328,35 @@ export default function App() {
     }
   }
 
+  const mediaPlayerPreview = (props) => {
+    return (
+      <MediaPlayer
+
+      />
+    )
+  }
 
   const showPreviewCards = showsPreview(state.phase === 'FAVORITES' ? state.favoriteShows : state.shows)
-  // const showEpisode = episodePreview(state.episode)
+  const showDetails = episodePreview(state.showDetails)
   const showCarousel = carouselPreview(state.carousel)
   const showSortBar = showSortingBar(state.shows)
+  const showMediaPlayer = mediaPlayerPreview(state.mediaPlayer)
+
+
+
 
   return (
     <>
       <div className='nav-container'>
         <Navbar search={handleSearch} />
       </div>
-      <MediaPlayer />
+      {showMediaPlayer}
       <div>
         {state.phase === 'SHOWS' || 'FAVORITE' ? showCarousel : ''}
         {state.phase === 'SHOWS' || 'FAVORITE' ? showSortBar : ''}
       </div>
       <div className='main-container'>
-        {showPreviewCards}
+        {state.phase === 'EPISODE' ? showDetails : showPreviewCards}
       </div>
 
     </>

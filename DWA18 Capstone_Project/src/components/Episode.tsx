@@ -5,15 +5,15 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Player from './Player';
+import EpisodeCard from './EpisodeCard';
 import generateCode from '../utils/keygen';
 import BackButton from './BackButton';
+import LoadingBar from './Loading';
 
 const EpisodeWrapper = styled('div')({
     border: 'solid black 1px',
-    width: '99%',
-    marginTop: '50px',
-    marginLeft: '5px',
+    width: '100%',
+    marginTop: '30px',
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#F2F2F2',
@@ -62,67 +62,38 @@ const Title = styled('h1')({
     marginRight: 'auto',
 })
 
+const SelectSeason = styled('div')({
+    color: 'red',
+    textAlign: 'center',
+    fontSize: '20px',
+})
+
 
 export default function Episode(props) {
-    const { title, description, seasons, image, updated, phase } = props
+    const { showData, handleSeasons, seasonPick, phase, image, loadImage, episodes, description, title } = props
 
-    const [episodeState, setEpisodeState] = React.useState({
-        season: '',
-        list: '',
-        displayEpisodes: [],
-        displayImgage: '',
-        mediaPlayer: '',
-    })
+    // const date = new Date(updated)
+    // const readableDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
 
-    const date = new Date(updated)
-    const readableDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+    const list = showData.seasons.map(item => (
+        <MenuItem
+            key={generateCode(16)}
+            value={item.season}
+        >
+            {item.season}
+        </MenuItem>
+    ))
 
-    React.useEffect(() => {
-        setEpisodeState((prevState) => ({
-            ...prevState,
-            list: seasons.map((item) => (
-                <MenuItem
-                    key={generateCode(16)}
-                    value={item.season}
-                >
-                    {item.season}
-                </MenuItem>
-            ))
-        })
-        )
-    }, [episodeState.season])
-
-
-    const handleChange = (event) => {
-        setEpisodeState(prevState => ({
-            ...prevState,
-            season: event.target.value,
-            displayEpisodes: seasons[event.target.value - 1].episodes,
-            displayImgage: seasons[event.target.value - 1].image
-        }));
-    };
-
-    const displayPlayer = (props) => {
-        if (props.length === 0) {
-            return <div>Please Select a season</div>
-        } else {
-            return (
-                props.map((item) => (
-                    <Player
-                        key={generateCode(16)}
-                        id={generateCode(3)}
-                        title={item.title}
-                        description={item.description}
-                        episode={item.episode}
-                        file={item.file}
-                    />
-                ))
-            )
-
-        }
-    }
-
-    const displayList = displayPlayer(episodeState.displayEpisodes)
+    const showEpisodes = episodes.map(item => (
+        <EpisodeCard
+            key={generateCode(16)}
+            // id={generateCode(3)}
+            title={item.title}
+            description={item.description}
+            episode={item.episode}
+            file={item.file}
+        />
+    ))
 
     return (
         <EpisodeWrapper>
@@ -141,23 +112,23 @@ export default function Episode(props) {
                     <FormControl fullWidth>
                         <InputLabel>Season</InputLabel>
                         <Select
-                            value={episodeState.season}
+                            value={seasonPick}
                             label="Seasons"
-                            onChange={handleChange}
+                            onChange={handleSeasons}
                         >
-                            {episodeState.list}
+                            {list}
                         </Select>
                     </FormControl>
                 </Box>
             </SeasonList>
             <EpisodeContainer>
-                <ImageStyle src={episodeState.displayImgage === '' ? image : episodeState.displayImgage} alt='season image' />
+                <ImageStyle src={(image === '') ? loadImage : image} alt='season image' />
                 <EpisodeInfo>
-                    {displayList}
+                    {(seasonPick === '') ? <SelectSeason>Please select a season</SelectSeason> : showEpisodes}
                 </EpisodeInfo>
             </EpisodeContainer>
             <UpdatedInfo>
-                <p>{`Last updated: ${readableDate}`}</p>
+                {/* <p>{`Show last updated: ${readableDate}`}</p> */}
             </UpdatedInfo>
         </EpisodeWrapper>
     )
