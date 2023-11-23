@@ -283,6 +283,7 @@ export default function App() {
           episodes={props.displayEpisodes}
           description={props.showDescription}
           title={props.showTitle}
+          media={handleMedia}
 
 
         />
@@ -290,13 +291,18 @@ export default function App() {
     }
   }
 
-  // const mediaPlayerPreview = (props) => {
-  //   setState(prevState => ({
-  //     ...prevState,
-  //     mediaPlayer: props,
-  //   })
-  //   )
-  // }
+  const handleMedia = (file, image, title) => {
+    setState(prevState => ({
+      ...prevState,
+      mediaPlayer: {
+        mediaTitle: title,
+        mediaFile: file,
+        mediaImage: image,
+      },
+    }))
+  }
+
+  console.log(state.mediaPlayer)
 
 
   const carouselPreview = (props) => {
@@ -331,7 +337,9 @@ export default function App() {
   const mediaPlayerPreview = (props) => {
     return (
       <MediaPlayer
-
+        title={props.mediaTitle}
+        file={props.mediaFile}
+        image={props.mediaImage}
       />
     )
   }

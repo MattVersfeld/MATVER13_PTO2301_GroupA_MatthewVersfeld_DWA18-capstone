@@ -27,6 +27,7 @@ const Test = styled('div')({
 })
 
 export default function MediaPlayer(props) {
+    const { title, file, image } = props
     const theme = useTheme();
 
 
@@ -36,11 +37,11 @@ export default function MediaPlayer(props) {
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <CardContent sx={{ flex: '1 0 auto', color: 'white' }}>
                         <Typography component="div" variant="h5">
-                            title here
+                            {title}
                         </Typography>
-                        <Typography variant="subtitle1" color="text.secondary" component="div">
+                        {/* <Typography variant="subtitle1" color="text.secondary" component="div">
                             Mac Miller
-                        </Typography>
+                        </Typography> */}
                     </CardContent>
                     <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
                         <IconButton aria-label="previous">
@@ -57,7 +58,7 @@ export default function MediaPlayer(props) {
                 <CardMedia
                     component="img"
                     sx={{ width: 151 }}
-                    image=''
+                    image={image}
                     alt="Cover"
                 />
             </MediaCardStyle>

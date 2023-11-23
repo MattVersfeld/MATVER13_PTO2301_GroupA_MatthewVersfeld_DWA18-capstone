@@ -13,7 +13,7 @@ const CardWrapper = styled('div')({
 })
 
 export default function EpisodeCard(props) {
-  const { title, description, episode, file } = props
+  const { title, description, episode, file, media, image } = props
 
   return (
     <CardWrapper>
@@ -31,7 +31,7 @@ export default function EpisodeCard(props) {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button onClick={() => media(file)} size="small">Play</Button>
+          <Button onClick={() => media(file, image, title)} size="small">Play</Button>
           <Button size="small">Share</Button>
         </CardActions>
       </Card>

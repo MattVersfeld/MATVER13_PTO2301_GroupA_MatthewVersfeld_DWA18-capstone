@@ -70,7 +70,7 @@ const SelectSeason = styled('div')({
 
 
 export default function Episode(props) {
-    const { showData, handleSeasons, seasonPick, phase, image, loadImage, episodes, description, title } = props
+    const { showData, handleSeasons, seasonPick, phase, image, loadImage, episodes, description, title, media } = props
 
     // const date = new Date(updated)
     // const readableDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
@@ -92,6 +92,8 @@ export default function Episode(props) {
             description={item.description}
             episode={item.episode}
             file={item.file}
+            media={media}
+            image={image}
         />
     ))
 
