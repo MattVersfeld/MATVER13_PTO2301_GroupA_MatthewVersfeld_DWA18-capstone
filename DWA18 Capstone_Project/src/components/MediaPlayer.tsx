@@ -22,7 +22,7 @@ const MediaCardStyle = styled(Card)({
 
 })
 
-const Test = styled('div')({
+const AudioWrapper = styled('div')({
     position: 'relative',
 })
 
@@ -30,29 +30,26 @@ export default function MediaPlayer(props) {
     const { title, file, image } = props
     const theme = useTheme();
 
-
     return (
-        <Test>
+        <AudioWrapper>
+
             <MediaCardStyle sx={{ display: 'flex' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <CardContent sx={{ flex: '1 0 auto', color: 'white' }}>
                         <Typography component="div" variant="h5">
                             {title}
                         </Typography>
-                        {/* <Typography variant="subtitle1" color="text.secondary" component="div">
-                            Mac Miller
-                        </Typography> */}
+                        <Typography variant="subtitle1" color="text.secondary" component="div">
+
+                        </Typography>
                     </CardContent>
                     <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                        <IconButton aria-label="previous">
-                            {theme.direction === 'rtl' ? <SkipNextIcon sx={{ color: 'white' }} /> : <SkipPreviousIcon sx={{ color: 'white' }} />}
-                        </IconButton>
-                        <IconButton aria-label="play/pause">
-                            <PlayArrowIcon sx={{ height: 38, width: 38, color: 'white' }} />
-                        </IconButton>
-                        <IconButton aria-label="next">
-                            {theme.direction === 'rtl' ? <SkipPreviousIcon sx={{ color: 'white' }} /> : <SkipNextIcon sx={{ color: 'white' }} />}
-                        </IconButton>
+                        <div>
+                            <audio
+                                src={file}
+                                controls
+                            />
+                        </div>
                     </Box>
                 </Box>
                 <CardMedia
@@ -62,6 +59,6 @@ export default function MediaPlayer(props) {
                     alt="Cover"
                 />
             </MediaCardStyle>
-        </Test>
+        </AudioWrapper>
     );
 }

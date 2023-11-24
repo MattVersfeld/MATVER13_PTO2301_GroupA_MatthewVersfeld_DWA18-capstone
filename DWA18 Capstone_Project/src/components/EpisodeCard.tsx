@@ -33,6 +33,10 @@ export default function EpisodeCard(props) {
         <CardActions>
           <Button onClick={() => media(file, image, title)} size="small">Play</Button>
           <Button size="small">Share</Button>
+          <audio
+            src={file}
+            controls
+          />
         </CardActions>
       </Card>
     </CardWrapper>

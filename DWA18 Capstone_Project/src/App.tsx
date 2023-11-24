@@ -302,7 +302,6 @@ export default function App() {
     }))
   }
 
-  console.log(state.mediaPlayer)
 
 
   const carouselPreview = (props) => {
@@ -349,8 +348,6 @@ export default function App() {
   const showCarousel = carouselPreview(state.carousel)
   const showSortBar = showSortingBar(state.shows)
   const showMediaPlayer = mediaPlayerPreview(state.mediaPlayer)
-
-
 
 
   return (
