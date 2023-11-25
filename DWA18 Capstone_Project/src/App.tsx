@@ -131,30 +131,55 @@ export default function App() {
     }))
   }, [state.loadCarousel])
 
-  /**
-   * Initial API call for the array of shows to be used to preview on Landing Page
-   */
+
   React.useEffect(() => {
     if (storedItems) {
       return
     } else {
       fetch('https://podcast-api.netlify.app/shows')
         .then(res => res.json())
-        .then(data => setState((prevState) => ({
-          ...prevState,
-          shows: data.map(item => ({
+        .then(data => {
+
+          const fetchGenre = (id) => {
+            return fetch(`https://podcast-api.netlify.app/genre/${id}`)
+              .then(res => res.json())
+          }
+
+          const fetchGenres = (idArr) => {
+            let genrePromises = idArr.map(id => fetchGenre(id));
+            return Promise.all(genrePromises)
+          }
+
+          let showPromises = data.map(show => {
+            return fetchGenres(show.genres)
+              .then(genres => {
+
+                show.genres = genres
+                return show
+              })
+          })
+
+          return Promise.all(showPromises)
+        })
+        .then(showGenreData => {
+
+          let showArray = showGenreData.map(item => ({
             ...item,
             favorite: false,
-          })),
-          loadCarousel: true,
-          resetShows: false,
-          showBackup: data.map(item => ({
-            ...item,
-            favorite: false,
-          })),
-        })))
+          }));
+
+          return setState((prevState) => ({
+            ...prevState,
+            shows: showArray,
+            loadCarousel: true,
+            resetShows: false,
+            showBackup: showArray,
+          }))
+        })
     }
   }, [])
+
+
   /**
    * When show is selected / clicked on the fuction takes the ID from the show and 
    * uses the ID to fetch the single episode data from API
