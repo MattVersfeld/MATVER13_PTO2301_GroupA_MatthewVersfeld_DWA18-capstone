@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Carousel from 'React-material-ui-carousel'
 import { Paper, styled } from '@mui/material'
 import generateCode from '../utils/keygen'
@@ -28,7 +27,7 @@ const Test = styled(Paper)({
     backgroundColor: '#d3d3d3',
     padding: '10px',
 })
-
+// @ts-expect-error
 export default function LandingCarousel(props) {
     const { data } = props
 
@@ -50,7 +49,7 @@ export default function LandingCarousel(props) {
         </CarStyle>
     )
 }
-
+// @ts-expect-error
 function Item(props) {
     const { item } = props
     return (
