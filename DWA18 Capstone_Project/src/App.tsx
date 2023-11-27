@@ -39,6 +39,8 @@ export default function App() {
       mediaFile: '',
       mediaImage: '',
     },
+    isMediaPlaying: false,
+    resetData: false,
   })
 
   React.useEffect(() => {
@@ -133,7 +135,7 @@ export default function App() {
 
 
   React.useEffect(() => {
-    if (storedItems) {
+    if (storedItems && state.reset === false) {
       return
     } else {
       fetch('https://podcast-api.netlify.app/shows')
@@ -174,10 +176,12 @@ export default function App() {
             loadCarousel: true,
             resetShows: false,
             showBackup: showArray,
+            resetData: false,
+            phase: 'SHOWS'
           }))
         })
     }
-  }, [])
+  }, [state.resetData])
 
 
   /**
@@ -243,18 +247,11 @@ export default function App() {
   }
 
   const resetShows = () => {
-    fetch('https://podcast-api.netlify.app/shows')
-      .then(res => res.json())
-      .then(data => setState((prevState) => ({
-        ...prevState,
-        shows: data.map(item => ({
-          ...item,
-          favorite: false,
-        })),
-        loadCarousel: true,
-        favoriteShows: [],
-        phase: 'SHOWS'
-      })))
+    setState(prevState => ({
+      ...prevState,
+      resetData: true,
+      phase: 'RESET'
+    }))
   }
 
   const showsPreview = (props) => {
@@ -268,6 +265,7 @@ export default function App() {
           title={show.title}
           description={show.description}
           image={show.image}
+          genres={show.genres}
           updated={show.updated}
           seasons={show.seasons}
           episodeChange={showDetailData}
@@ -324,6 +322,7 @@ export default function App() {
         mediaFile: file,
         mediaImage: image,
       },
+      isMediaPlaying: true,
     }))
   }
 
@@ -380,14 +379,14 @@ export default function App() {
       <div className='nav-container'>
         <Navbar search={handleSearch} />
       </div>
-      {showMediaPlayer}
-      <div>
+      {state.isMediaPlaying ? showMediaPlayer : ''}
+      {state.phase === 'RESET' ? <LoadingBar /> : <div>
         {state.phase === 'SHOWS' || 'FAVORITE' ? showCarousel : ''}
         {state.phase === 'SHOWS' || 'FAVORITE' ? showSortBar : ''}
-      </div>
-      <div className='main-container'>
+      </div>}
+      {state.phase === 'RESET' ? <LoadingBar /> : <div className='main-container'>
         {state.phase === 'EPISODE' ? showDetails : showPreviewCards}
-      </div>
+      </div>}
 
     </>
   )

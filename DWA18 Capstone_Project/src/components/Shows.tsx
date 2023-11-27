@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import generateCode from '../utils/keygen';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -40,16 +41,28 @@ const IconStyle = styled(FavoriteIcon)({
     color: '#42adf5',
 })
 
+const BoldStyle = styled(Typography)({
+    fontWeight: 'bold',
+})
+
 export default function Shows(props) {
     const [expanded, setExpanded] = React.useState(false);
-    const { title, description, image, updated, seasons, episodeChange, id, toggleFav, isFav, favUpdated } = props
-
+    const { title, description, image, updated, seasons, episodeChange, id, toggleFav, isFav, favUpdated, genres } = props
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
+    const genreList = (genres) => (
+        genres.map(genre => (
+            <Typography
+                key={generateCode(12)}
+                paragraph>{genre.title}
+            </Typography>
+        ))
+    )
 
+    const listOfGenres = genreList(genres)
 
     return (
         <ShowPreview>
@@ -61,7 +74,6 @@ export default function Shows(props) {
                         </IconButton>
                     }
                     title={title}
-                    subheader={''}
                 />
                 <CardMedia
                     component="img"
@@ -86,8 +98,11 @@ export default function Shows(props) {
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
-                        <Typography paragraph>Seasons: {seasons}</Typography>
-                        <Typography paragraph>Summary:</Typography>
+                        <BoldStyle paragraph>Seasons:</BoldStyle>
+                        <Typography paragraph>{seasons}</Typography>
+                        <BoldStyle paragraph>Genres:</BoldStyle>
+                        {listOfGenres}
+                        <BoldStyle paragraph>Summary:</BoldStyle>
                         <Typography paragraph>
                             {description}
                         </Typography>
