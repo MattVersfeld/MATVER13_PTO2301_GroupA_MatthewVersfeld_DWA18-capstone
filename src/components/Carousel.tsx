@@ -1,4 +1,4 @@
-import Carousel from 'React-material-ui-carousel'
+import Carousel from 'react-material-ui-carousel/dist'
 import { Paper, styled } from '@mui/material'
 import generateCode from '../utils/keygen'
 
