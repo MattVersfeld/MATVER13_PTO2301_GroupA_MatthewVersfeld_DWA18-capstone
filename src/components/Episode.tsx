@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';

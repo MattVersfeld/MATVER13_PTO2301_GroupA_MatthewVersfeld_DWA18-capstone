@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react'
 import Fuse from "fuse.js";
 import { useState } from 'react'

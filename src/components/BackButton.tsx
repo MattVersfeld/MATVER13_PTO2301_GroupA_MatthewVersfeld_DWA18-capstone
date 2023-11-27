@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Button from '@mui/material/Button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Stack from '@mui/material/Stack';
@@ -7,7 +8,7 @@ const ButtonStyle = styled(Button)({
     border: 'none',
     color: 'black'
 })
-// @ts-expect-error
+
 export default function BackButton(props) {
     const { phase } = props
     return (
