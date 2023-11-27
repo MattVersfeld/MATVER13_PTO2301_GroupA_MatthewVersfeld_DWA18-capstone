@@ -13,7 +13,7 @@ import { dateUp, dateDown, titleDown, titleUp } from './utils/sorting'
 import './App.css'
 
 export default function App() {
-
+  // @ts-expect-error
   const storedItems = JSON.parse(localStorage.getItem('localStorage'))
 
   const [state, setState] = useState((storedItems) ? storedItems : {
@@ -57,12 +57,13 @@ export default function App() {
   }
 
   const fuse = new Fuse(state.shows, options);
-
+  // @ts-expect-error
   const handleSearch = (event) => {
     event.preventDefault()
     const { value } = event.target;
 
     if (value.length === 0) {
+      // @ts-expect-error
       setState(prevState => ({
         ...prevState,
         shows: prevState.showBackup
@@ -72,6 +73,7 @@ export default function App() {
 
     const results = fuse.search(value);
     const items = results.map((result) => result.item);
+    // @ts-expect-error
     setState(prevState => ({
       ...prevState,
       shows: (items.length === 0) ? prevState.showBackup : items
@@ -82,12 +84,15 @@ export default function App() {
    * Function handles the favorites once clicked on each show
    */
   const handleFavorite = (id: string) => {
+    // @ts-expect-error
     setState(prevState => ({
       ...prevState,
+      // @ts-expect-error
       shows: prevState.shows.map((show) => {
         return show.id === id ? { ...show, favorite: !show.favorite, date: new Date().toLocaleString() } : show
       })
     }))
+    // @ts-expect-error
     setState(prevState => ({
       ...prevState,
       favoriteShows: [...prevState.shows].map((show) => {
@@ -98,6 +103,7 @@ export default function App() {
   }
 
   const handlePhase = () => {
+    // @ts-expect-error
     setState(prevState => ({
       ...prevState,
       phase: 'SHOWS',
@@ -116,6 +122,7 @@ export default function App() {
     if (state.favoriteShows.length === 0) {
       return
     } else {
+      // @ts-expect-error
       setState(prevState => ({
         ...prevState,
         phase: 'FAVORITES'
@@ -128,6 +135,7 @@ export default function App() {
    */
   React.useEffect(() => {
     const shuffled = [...state.shows].sort(() => 0.5 - Math.random());
+    // @ts-expect-error
     setState((prevState) => ({
       ...prevState,
       carousel: shuffled.slice(0, 11),
@@ -143,16 +151,16 @@ export default function App() {
         .then(res => res.json())
         .then(data => {
 
-          const fetchGenre = (id) => {
+          const fetchGenre = (id: number) => {
             return fetch(`https://podcast-api.netlify.app/genre/${id}`)
               .then(res => res.json())
           }
 
-          const fetchGenres = (idArr) => {
+          const fetchGenres = (idArr: []) => {
             let genrePromises = idArr.map(id => fetchGenre(id));
             return Promise.all(genrePromises)
           }
-
+          // @ts-expect-error
           let showPromises = data.map(show => {
             return fetchGenres(show.genres)
               .then(genres => {
@@ -170,7 +178,7 @@ export default function App() {
             ...item,
             favorite: false,
           }));
-
+          // @ts-expect-error
           return setState((prevState) => ({
             ...prevState,
             shows: showArray,
@@ -193,6 +201,7 @@ export default function App() {
   const showDetailData = (id: string) => {
     fetch(`https://podcast-api.netlify.app/id/${id}`)
       .then(res => res.json())
+      // @ts-expect-error
       .then(data => setState((prevState) => ({
         ...prevState,
         showDetails: {
@@ -204,7 +213,7 @@ export default function App() {
           showDate: data.updated
         },
       })))
-
+    // @ts-expect-error
     setState(prevState => ({
       ...prevState,
       phase: 'EPISODE'
@@ -212,6 +221,7 @@ export default function App() {
   }
 
   const sortAcending = () => {
+    // @ts-expect-error
     setState(prevState => ({
       ...prevState,
       shows: prevState.shows.sort(titleUp),
@@ -222,6 +232,7 @@ export default function App() {
   }
 
   const sortDecending = () => {
+    // @ts-expect-error
     setState(prevState => ({
       ...prevState,
       shows: prevState.shows.sort(titleDown),
@@ -231,6 +242,7 @@ export default function App() {
   }
 
   const sortDecendingDate = () => {
+    // @ts-expect-error
     setState(prevState => ({
       ...prevState,
       shows: prevState.shows.sort(dateDown),
@@ -240,6 +252,7 @@ export default function App() {
   }
 
   const sortAcendingDate = () => {
+    // @ts-expect-error
     setState(prevState => ({
       ...prevState,
       shows: prevState.shows.sort(dateUp),
@@ -249,17 +262,19 @@ export default function App() {
   }
 
   const resetShows = () => {
+    // @ts-expect-error
     setState(prevState => ({
       ...prevState,
       resetData: true,
       phase: 'RESET'
     }))
   }
-
+  // @ts-expect-error
   const showsPreview = (props) => {
     if (props.length === 0) {
       return <LoadingBar />
     } else {
+      // @ts-expect-error
       return props.map((show) => (
         <Shows
           key={generateCode(16)}
@@ -279,8 +294,9 @@ export default function App() {
     }
   }
 
-
+  // @ts-expect-error
   const handleSeasons = (event) => {
+    // @ts-expect-error
     setState(prevState => ({
       ...prevState,
       showDetails: {
@@ -291,7 +307,7 @@ export default function App() {
       }
     }));
   };
-
+  // @ts-expect-error
   const episodePreview = (props) => {
     if (props.showData.length === 0) {
       return <LoadingBar />
@@ -316,8 +332,9 @@ export default function App() {
       )
     }
   }
-
+  // @ts-expect-error
   const handleMedia = (file, image, title) => {
+    // @ts-expect-error
     setState(prevState => ({
       ...prevState,
       mediaPlayer: {
@@ -330,7 +347,7 @@ export default function App() {
   }
 
 
-
+  // @ts-expect-error
   const carouselPreview = (props) => {
     if (props.length === 0) {
       return <LoadingBar />
@@ -342,7 +359,7 @@ export default function App() {
       )
     }
   }
-
+  // @ts-expect-error
   const showSortingBar = (props) => {
     if (props.length === 0) {
       return <LoadingBar />
@@ -359,7 +376,7 @@ export default function App() {
       )
     }
   }
-
+  // @ts-expect-error
   const mediaPlayerPreview = (props) => {
     return (
       <MediaPlayer

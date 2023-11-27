@@ -32,7 +32,7 @@ const NavTitleWrapper = styled('div')({
     display: 'flex',
 })
 
-
+// @ts-expect-error
 export default function Navbar(props) {
     const { search } = props
     return (

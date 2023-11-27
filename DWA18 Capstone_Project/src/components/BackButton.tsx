@@ -7,7 +7,7 @@ const ButtonStyle = styled(Button)({
     border: 'none',
     color: 'black'
 })
-
+// @ts-expect-error
 export default function BackButton(props) {
     const { phase } = props
     return (

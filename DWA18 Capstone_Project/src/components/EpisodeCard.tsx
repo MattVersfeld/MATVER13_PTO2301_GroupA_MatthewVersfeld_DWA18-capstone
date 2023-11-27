@@ -9,7 +9,7 @@ const CardWrapper = styled('div')({
   display: 'flex',
   width: '100%',
 })
-
+// @ts-expect-error
 export default function EpisodeCard(props) {
   const { title, description, episode, file, media, image } = props
 

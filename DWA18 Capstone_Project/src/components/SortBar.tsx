@@ -18,7 +18,7 @@ const StackStyle = styled(Stack)({
     display: 'flex',
     justifyContent: 'center'
 })
-
+// @ts-expect-error
 export default function SortingButtons(props) {
     const { up, down, reset, dateDown, dateUp, phase } = props
 

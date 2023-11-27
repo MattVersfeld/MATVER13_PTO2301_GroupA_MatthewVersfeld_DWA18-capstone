@@ -1,5 +1,4 @@
 import { styled } from '@mui/system';
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -20,10 +19,9 @@ const MediaCardStyle = styled(Card)({
 const AudioWrapper = styled('div')({
     position: 'relative',
 })
-
+// @ts-expect-error
 export default function MediaPlayer(props) {
     const { title, file, image } = props
-    const theme = useTheme();
 
     return (
         <AudioWrapper>

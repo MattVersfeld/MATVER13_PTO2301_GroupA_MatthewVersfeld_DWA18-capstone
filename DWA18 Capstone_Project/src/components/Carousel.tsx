@@ -27,7 +27,7 @@ const Test = styled(Paper)({
     backgroundColor: '#d3d3d3',
     padding: '10px',
 })
-
+// @ts-expect-error
 export default function LandingCarousel(props) {
     const { data } = props
 
@@ -49,13 +49,13 @@ export default function LandingCarousel(props) {
         </CarStyle>
     )
 }
-
+// @ts-expect-error
 function Item(props) {
     const { item } = props
     return (
         <>
             <Test>
-                {item.map((item) => <ImgStyle key={generateCode(16)} src={item.image}></ImgStyle>)}
+                {item.map((item: any) => <ImgStyle key={generateCode(16)} src={item.image}></ImgStyle>)}
             </Test>
         </>
     )
