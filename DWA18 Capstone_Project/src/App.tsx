@@ -25,6 +25,7 @@ export default function App() {
       showImage: '',
       showTitle: '',
       showDescription: '',
+      showDate: '',
       seasonPick: '',
       episodes: [],
       displayEpisodes: [],
@@ -200,6 +201,7 @@ export default function App() {
           showImage: data.image,
           showTitle: data.title,
           showDescription: data.description,
+          showDate: data.updated
         },
       })))
 
@@ -306,6 +308,7 @@ export default function App() {
           episodes={props.displayEpisodes}
           description={props.showDescription}
           title={props.showTitle}
+          updated={props.showDate}
           media={handleMedia}
 
 

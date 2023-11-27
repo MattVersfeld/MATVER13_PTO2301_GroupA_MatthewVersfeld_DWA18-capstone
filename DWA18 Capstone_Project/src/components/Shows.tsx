@@ -47,7 +47,7 @@ const BoldStyle = styled(Typography)({
 
 export default function Shows(props) {
     const [expanded, setExpanded] = React.useState(false);
-    const { title, description, image, updated, seasons, episodeChange, id, toggleFav, isFav, favUpdated, genres } = props
+    const { title, description, image, seasons, episodeChange, id, toggleFav, isFav, favUpdated, genres } = props
 
     const handleExpandClick = () => {
         setExpanded(!expanded);

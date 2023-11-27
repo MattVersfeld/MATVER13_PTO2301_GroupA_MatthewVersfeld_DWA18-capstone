@@ -1,5 +1,4 @@
 import { styled } from '@mui/system';
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,7 +7,6 @@ import Select from '@mui/material/Select';
 import EpisodeCard from './EpisodeCard';
 import generateCode from '../utils/keygen';
 import BackButton from './BackButton';
-import LoadingBar from './Loading';
 
 const EpisodeWrapper = styled('div')({
     border: 'solid black 1px',
@@ -70,10 +68,11 @@ const SelectSeason = styled('div')({
 
 
 export default function Episode(props) {
-    const { showData, handleSeasons, seasonPick, phase, image, loadImage, episodes, description, title, media } = props
+    const { showData, handleSeasons, seasonPick, phase, image, loadImage, episodes, description, title, media, updated } = props
 
-    // const date = new Date(updated)
-    // const readableDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+    console.log(updated)
+    const date = new Date(updated)
+    const readableDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
 
     const list = showData.seasons.map(item => (
         <MenuItem
@@ -87,7 +86,6 @@ export default function Episode(props) {
     const showEpisodes = episodes.map(item => (
         <EpisodeCard
             key={generateCode(16)}
-            // id={generateCode(3)}
             title={item.title}
             description={item.description}
             episode={item.episode}
@@ -130,7 +128,7 @@ export default function Episode(props) {
                 </EpisodeInfo>
             </EpisodeContainer>
             <UpdatedInfo>
-                {/* <p>{`Show last updated: ${readableDate}`}</p> */}
+                <p>{`Show last updated: ${readableDate}`}</p>
             </UpdatedInfo>
         </EpisodeWrapper>
     )

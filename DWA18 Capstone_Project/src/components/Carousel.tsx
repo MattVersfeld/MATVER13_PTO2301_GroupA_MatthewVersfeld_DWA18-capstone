@@ -1,5 +1,5 @@
 import Carousel from 'React-material-ui-carousel'
-import { Paper, Button, styled } from '@mui/material'
+import { Paper, styled } from '@mui/material'
 import generateCode from '../utils/keygen'
 
 const CarStyle = styled('div')({
@@ -56,9 +56,6 @@ function Item(props) {
         <>
             <Test>
                 {item.map((item) => <ImgStyle key={generateCode(16)} src={item.image}></ImgStyle>)}
-                {/* <Button className="CheckButton">
-                Check it out!
-            </Button> */}
             </Test>
         </>
     )
