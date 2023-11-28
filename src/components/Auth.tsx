@@ -24,7 +24,9 @@ export default function Auth(props) {
         event.preventDefault()
 
         setLoading(true)
-        const { error } = await supabase.auth.signInWithOtp({ email })
+        const { error } = await supabase.auth.signInWithOtp({ email }, {
+            redirectTo: window.location.origin
+        })
 
         if (error) {
             alert(error.error_description || error.message)
