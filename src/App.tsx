@@ -47,7 +47,6 @@ export default function App() {
     },
     isMediaPlaying: false,
     resetData: false,
-    session: null,
   })
 
   React.useEffect(() => {
@@ -136,13 +135,6 @@ export default function App() {
       }).filter(item => item !== undefined)
     }))
 
-  }
-
-  const handlePhaseShows = () => {
-    setState(prevState => ({
-      ...prevState,
-      phase: 'SHOWS'
-    }))
   }
 
   const handlePhase = () => {
@@ -420,7 +412,7 @@ export default function App() {
 
   return (
     <>
-      {state.phase === 'SIGNIN' ? <Auth phase={handlePhaseShows} /> : <div>
+      {state.phase === 'SIGNIN' ? <Auth /> : <div>
         <div className='nav-container'>
           <Navbar search={handleSearch} />
         </div>
