@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
@@ -12,6 +13,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import generateCode from '../utils/keygen';
+import GenreButton from './GenreButton';
+
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -48,7 +51,7 @@ const IconStyle = styled(FavoriteIcon)({
 const BoldStyle = styled(Typography)({
     fontWeight: 'bold',
 })
-// @ts-expect-error
+
 export default function Shows(props) {
     const [expanded, setExpanded] = React.useState(false);
     const { title, description, image, seasons, episodeChange, id, toggleFav, isFav, favUpdated, genres } = props
@@ -56,14 +59,13 @@ export default function Shows(props) {
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-    // @ts-expect-error
+
     const genreList = (genres) => (
-        // @ts-expect-error
         genres.map(genre => (
-            <Typography
+            <GenreButton
                 key={generateCode(12)}
-                paragraph>{genre.title}
-            </Typography>
+                genre={genre.title}
+            />
         ))
     )
 

@@ -22,7 +22,7 @@ export default function App() {
   const storedItems = JSON.parse(localStorage.getItem('localStorage'))
 
   const [state, setState] = useState((storedItems) ? storedItems : {
-    phase: 'SIGNIN',
+    phase: 'SHOWS',
     shows: [],
     DisplayShows: [],
     showDetails: {
