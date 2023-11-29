@@ -287,10 +287,51 @@ export default function App() {
   const resetShows = () => {
     setState(prevState => ({
       ...prevState,
-      resetData: true,
-      phase: 'RESET'
+      phase: 'RESET',
+      isMediaPlaying: false,
     }))
+    fetch('https://podcast-api.netlify.app/shows')
+      .then(res => res.json())
+      .then(data => {
+
+        const fetchGenre = (id: number) => {
+          return fetch(`https://podcast-api.netlify.app/genre/${id}`)
+            .then(res => res.json())
+        }
+
+        const fetchGenres = (idArr: []) => {
+          let genrePromises = idArr.map(id => fetchGenre(id));
+          return Promise.all(genrePromises)
+        }
+        let showPromises = data.map(show => {
+          return fetchGenres(show.genres)
+            .then(genres => {
+
+              show.genres = genres
+              return show
+            })
+        })
+
+        return Promise.all(showPromises)
+      })
+      .then(showGenreData => {
+
+        let showArray = showGenreData.map(item => ({
+          ...item,
+          favorite: false,
+        }));
+        return setState((prevState) => ({
+          ...prevState,
+          shows: showArray,
+          loadCarousel: true,
+          resetShows: false,
+          showBackup: showArray,
+          resetData: false,
+          phase: 'SHOWS'
+        }))
+      })
   }
+
   const showsPreview = (props) => {
     if (props.length === 0) {
       return <LoadingBar />
@@ -403,11 +444,13 @@ export default function App() {
     )
   }
 
+
   const showPreviewCards = showsPreview(state.phase === 'FAVORITES' ? state.favoriteShows : state.shows)
   const showDetails = episodePreview(state.showDetails)
   const showCarousel = carouselPreview(state.carousel)
   const showSortBar = showSortingBar(state.shows)
   const showMediaPlayer = mediaPlayerPreview(state.mediaPlayer)
+
 
 
   return (

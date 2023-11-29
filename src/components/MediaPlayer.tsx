@@ -1,3 +1,5 @@
+// @ts-nocheck
+import React, { useEffect } from 'react';
 import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -19,13 +21,22 @@ const MediaCardStyle = styled(Card)({
 const AudioWrapper = styled('div')({
     position: 'relative',
 })
-// @ts-expect-error
+
 export default function MediaPlayer(props) {
     const { title, file, image } = props
 
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            event.preventDefault();
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+
     return (
         <AudioWrapper>
-
             <MediaCardStyle sx={{ display: 'flex' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <CardContent sx={{ flex: '1 0 auto', color: 'white' }}>
