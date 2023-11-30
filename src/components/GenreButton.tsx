@@ -3,11 +3,11 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 export default function GenreButton(props) {
-    const { genre } = props
+    const { genre, genreSort } = props
     return (
         <Box sx={{ '& button': { m: 1 } }}>
             <div>
-                <Button size="small">{genre}</Button>
+                <Button onClick={() => genreSort(genre)} size="small">{genre}</Button>
             </div>
         </Box>
     );

@@ -39,7 +39,7 @@ export default function Navbar(props) {
         <TopNav>
             <NavTitleWrapper>
                 <NavAvatar
-                    src="./src/assests/NavAvatar.jpg"
+                    src=""
                 />
                 <NavTitle>Let's Talk Podcasts</NavTitle>
             </NavTitleWrapper>

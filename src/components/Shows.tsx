@@ -54,7 +54,7 @@ const BoldStyle = styled(Typography)({
 
 export default function Shows(props) {
     const [expanded, setExpanded] = React.useState(false);
-    const { title, description, image, seasons, episodeChange, id, toggleFav, isFav, favUpdated, genres } = props
+    const { title, description, image, seasons, episodeChange, id, toggleFav, isFav, favUpdated, genres, genreSort } = props
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -65,6 +65,7 @@ export default function Shows(props) {
             <GenreButton
                 key={generateCode(12)}
                 genre={genre.title}
+                genreSort={genreSort}
             />
         ))
     )

@@ -14,7 +14,7 @@ import generateCode from './utils/keygen'
 import SortingButtons from './components/SortBar'
 import MediaPlayer from './components/MediaPlayer';
 import SignIn from './components/SignIn';
-import { dateUp, dateDown, titleDown, titleUp } from './utils/sorting'
+import { dateUp, dateDown, titleDown, titleUp, filterByGenre } from './utils/sorting'
 import './App.css'
 
 export default function App() {
@@ -222,6 +222,8 @@ export default function App() {
   }, [state.resetData])
 
 
+
+
   /**
    * When show is selected / clicked on the fuction takes the ID from the show and 
    * uses the ID to fetch the single episode data from API
@@ -281,6 +283,15 @@ export default function App() {
       shows: prevState.shows.sort(dateUp),
       favoriteShows: prevState.favoriteShows.sort(dateUp),
       showBackup: prevState.shows.sort(dateUp),
+    }))
+  }
+
+  const filterGenre = (title) => {
+    const genreSort = filterByGenre(state.shows, title)
+
+    setState(prevState => ({
+      ...prevState,
+      shows: genreSort
     }))
   }
 
@@ -350,6 +361,7 @@ export default function App() {
           toggleFav={handleFavorite}
           isFav={show.favorite}
           favUpdated={show.date}
+          genreSort={filterGenre}
         />
       ))
     }
@@ -443,6 +455,8 @@ export default function App() {
       />
     )
   }
+
+
 
 
   const showPreviewCards = showsPreview(state.phase === 'FAVORITES' ? state.favoriteShows : state.shows)
