@@ -1,3 +1,5 @@
+// @ts-nocheck
+import { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -9,9 +11,15 @@ const CardWrapper = styled('div')({
   display: 'flex',
   width: '100%',
 })
-// @ts-expect-error
+
 export default function EpisodeCard(props) {
   const { title, description, episode, file, media, image } = props
+
+  const [ended, setEnded] = useState(false)
+
+  const handleEnd = () => {
+    setEnded(true);
+  };
 
   return (
     <CardWrapper>
@@ -19,8 +27,9 @@ export default function EpisodeCard(props) {
         width: '100%',
         border: 'solid #d3d3d3 1px',
         backgroundColor: '#F2F2F2',
+        opacity: ended ? '0.3' : 1
       }}>
-        <CardContent>
+        <CardContent >
           <Typography gutterBottom variant="h5" component="div">
             {`Episode ${episode}: ${title}`}
           </Typography>
@@ -34,9 +43,10 @@ export default function EpisodeCard(props) {
           <audio
             src={file}
             controls
+            onEnded={handleEnd}
           />
         </CardActions>
       </Card>
-    </CardWrapper>
+    </CardWrapper >
   );
 }
