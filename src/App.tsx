@@ -22,7 +22,7 @@ export default function App() {
   const storedItems = JSON.parse(localStorage.getItem('localStorage'))
 
   const [state, setState] = useState((storedItems) ? storedItems : {
-    phase: 'SHOWS',
+    phase: 'SIGNIN',
     shows: [],
     DisplayShows: [],
     showDetails: {
@@ -53,6 +53,7 @@ export default function App() {
     localStorage.setItem('localStorage', JSON.stringify(state))
   }, [state])
 
+  console.log(state)
   const [session, setSession] = useState(null)
 
   React.useEffect(() => {

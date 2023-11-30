@@ -67,23 +67,30 @@ const SelectSeason = styled('div')({
     fontSize: '20px',
 })
 
-// @ts-expect-error
+const FontSize = styled('p')({
+    fontSize: '20px',
+})
+
+
 export default function Episode(props) {
     const { showData, handleSeasons, seasonPick, phase, image, loadImage, episodes, description, title, media, updated } = props
 
-    console.log(updated)
+
     const date = new Date(updated)
     const readableDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
-    // @ts-expect-error
-    const list = showData.seasons.map(item => (
-        <MenuItem
-            key={generateCode(16)}
-            value={item.season}
-        >
-            {item.season}
-        </MenuItem>
-    ))
-    // @ts-expect-error
+    const list = showData.seasons.map(item => {
+        const episodeLength = item.episodes.length
+
+        return (
+            <MenuItem
+                key={generateCode(16)}
+                value={item.season}
+            >
+                {`${item.season} - total episodes: ${episodeLength}`}
+            </MenuItem>
+        )
+    })
+
     const showEpisodes = episodes.map(item => (
         <EpisodeCard
             key={generateCode(16)}
@@ -106,7 +113,7 @@ export default function Episode(props) {
                     />
                 </BacktitleStyle>
 
-                <p>{description}</p>
+                <FontSize>{description}</FontSize>
             </TitleInfo>
             <SeasonList>
                 <Box sx={{ minWidth: 120 }}>
