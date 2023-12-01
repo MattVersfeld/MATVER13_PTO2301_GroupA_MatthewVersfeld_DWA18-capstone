@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -18,7 +19,6 @@ const StackStyle = styled(Stack)({
     display: 'flex',
     justifyContent: 'center'
 })
-// @ts-expect-error
 export default function SortingButtons(props) {
     const { up, down, reset, dateDown, dateUp, phase } = props
 
@@ -36,11 +36,11 @@ export default function SortingButtons(props) {
             <ButtonStyle onClick={dateDown} variant="outlined" startIcon={<EventIcon />}>
                 Date oldest
             </ButtonStyle>
-            <ButtonStyle onClick={reset} variant="outlined" startIcon={<AutoFixHighIcon />}>
-                Reset
-            </ButtonStyle>
             <ButtonStyle onClick={phase} variant="outlined" startIcon={<FavoriteIcon />}>
                 Favorites
+            </ButtonStyle>
+            <ButtonStyle onClick={reset} variant="outlined" startIcon={<AutoFixHighIcon />}>
+                Reset All Data
             </ButtonStyle>
         </StackStyle>
     );
