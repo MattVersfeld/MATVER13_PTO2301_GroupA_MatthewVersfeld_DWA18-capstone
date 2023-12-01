@@ -20,7 +20,7 @@ const ContentWrapper = styled(Carousel)({
 
 })
 
-const Test = styled(Paper)({
+const ImgWrapper = styled(Paper)({
     display: 'grid',
     gridTemplateColumns: '1fr 1fr 1fr',
     alignItems: 'center',
@@ -54,9 +54,9 @@ function Item(props) {
     const { item } = props
     return (
         <>
-            <Test>
+            <ImgWrapper>
                 {item.map((item: any) => <ImgStyle key={generateCode(16)} src={item.image}></ImgStyle>)}
-            </Test>
+            </ImgWrapper>
         </>
     )
 }
