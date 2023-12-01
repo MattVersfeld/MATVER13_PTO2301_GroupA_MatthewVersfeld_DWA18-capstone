@@ -44,7 +44,7 @@ export default function App() {
     : null;
 
   const [state, setState] = useState<AppState>((storedItems) ? storedItems : {
-    phase: 'SHOWS',
+    phase: 'SIGNIN',
     shows: [],
     DisplayShows: [],
     showDetails: {

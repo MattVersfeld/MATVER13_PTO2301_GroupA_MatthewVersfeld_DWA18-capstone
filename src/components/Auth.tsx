@@ -20,6 +20,25 @@ export default function Auth(props) {
     const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState('')
 
+
+    /*
+    * This function, 'handleLogin', is an asynchronous function designed to handle
+    * user login using Supabase authentication with one-time password (OTP).
+
+    * Parameters:
+    * event: The event object, typically from a form submission, to prevent its default behavior.
+
+    * Steps:
+    * 1. Prevents the default form submission behavior using 'event.preventDefault()'.
+    * 2. Sets the loading state to true to indicate that the login process is in progress.
+    * 3. Calls 'supabase.auth.signInWithOtp({ email }, { redirectTo: window.location.origin })'.
+    *  - Attempts to sign in the user using the provided email and sends an OTP.
+    *  - 'redirectTo' specifies the URL to redirect the user to after successful login.
+    * 4. Destructures the response object and checks for an error.
+    *  - If an error occurs, displays an alert with the error description or message.
+    *  - If successful, alerts the user to check their email for the login link.
+    * 5. Sets the loading state back to false to indicate the completion of the login process.
+*/
     const handleLogin = async (event) => {
         event.preventDefault()
 
